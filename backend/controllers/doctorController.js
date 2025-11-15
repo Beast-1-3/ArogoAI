@@ -1,5 +1,6 @@
 import Doctor from "../models/Doctor.js";
 import User from "../models/User.js";
+import Appointment from "../models/Appointment.js";
 
 // @desc    Get all doctors
 // @route   GET /api/doctors
@@ -68,6 +69,27 @@ export const updateAvailability = async (req, res) => {
     }
 
     const { availability } = req.body;
+
+    // Check if any booked slot is being removed
+    const activeAppointments = await Appointment.find({
+      doctor: doctor._id,
+      status: "booked",
+    });
+
+    for (const appointment of activeAppointments) {
+      const dayAvailability = availability.find(
+        (a) => a.date === appointment.date
+      );
+
+      if (
+        !dayAvailability ||
+        !dayAvailability.slots.includes(appointment.time)
+      ) {
+        return res.status(400).json({
+          message: `Cannot delete slot ${appointment.date} ${appointment.time}, it is already booked.`,
+        });
+      }
+    }
 
     doctor.availability = availability; // Update availability slots
     await doctor.save();

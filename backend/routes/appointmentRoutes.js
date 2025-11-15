@@ -5,7 +5,10 @@ import {
   getDoctorAppointments,
 } from "../controllers/appointmentController.js";
 import { protect, doctorOnly } from "../middleware/authMiddleware.js";
-import { getPatientAppointments } from "../controllers/appointmentController.js";
+import {
+  getPatientAppointments,
+  getDoctorBookedSlots,
+} from "../controllers/appointmentController.js";
 
 const router = express.Router();
 
@@ -14,5 +17,6 @@ router.post("/cancel", protect, cancelAppointment); // Patients cancel appointme
 router.get("/doctor", protect, doctorOnly, getDoctorAppointments); // Doctors view appointments
 
 router.get("/patient", protect, getPatientAppointments); // for patients to get their appointments
+router.get("/doctor/:doctorId/booked", getDoctorBookedSlots); // Public route to check availability
 
 export default router;

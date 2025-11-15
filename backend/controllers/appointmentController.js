@@ -34,6 +34,7 @@ export const bookAppointment = async (req, res) => {
       doctor: doctorId,
       date,
       time,
+      status: { $ne: "cancelled" },
     });
     if (existingAppointment) {
       return res.status(400).json({ message: "This slot is already booked" });
@@ -140,5 +141,21 @@ export const getPatientAppointments = async (req, res) => {
     res
       .status(500)
       .json({ success: false, message: "Error fetching appointments" });
+  }
+};
+
+// get booked slots for a doctor
+export const getDoctorBookedSlots = async (req, res) => {
+  try {
+    const { doctorId } = req.params;
+
+    const appointments = await Appointment.find({
+      doctor: doctorId,
+      status: "booked",
+    }).select("date time");
+
+    res.status(200).json({ success: true, data: appointments });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
