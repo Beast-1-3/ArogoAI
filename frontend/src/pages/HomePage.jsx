@@ -138,7 +138,7 @@ export default HomePage;
 const Container = styled(motion.div)`
   min-height: 100vh;
   padding: 4rem 2rem;
-  background: linear-gradient(to bottom, #f9fdff, #f0f9ff);
+  background: linear-gradient(to bottom, #e6fffa, #ffffff);
   overflow: hidden;
   position: relative;
 `;
@@ -169,8 +169,8 @@ const BackgroundDecoration = styled(motion.div)`
   border-radius: 50%;
   background: linear-gradient(
     135deg,
-    rgba(0, 119, 182, 0.1),
-    rgba(72, 202, 228, 0.2)
+    rgba(0, 201, 167, 0.1),
+    rgba(0, 181, 150, 0.2)
   );
   filter: blur(80px);
   z-index: 1;
@@ -181,7 +181,7 @@ const HeroTitle = styled.h1`
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 1.5rem;
-  background: linear-gradient(to right, #023e8a, #0077b6);
+  background: linear-gradient(to right, #00B596, #00C9A7); // Teal Gradient
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
@@ -191,8 +191,8 @@ const HeroTitle = styled.h1`
 `;
 
 const HeroSpan = styled.span`
-  color: #0096c7;
-  background: linear-gradient(to right, #0096c7, #48cae4);
+  color: #009688;
+  background: linear-gradient(to right, #00C9A7, #4db6ac);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
@@ -255,19 +255,19 @@ const SearchButtonWrapper = styled(Link)`
 
 const SearchButton = styled(motion(Button))`
   padding: 1rem 2rem;
-  background: linear-gradient(to right, #0077b6, #0096c7);
+  background: linear-gradient(to right, #00C9A7, #00B596);
   color: white;
   font-weight: 600;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 201, 167, 0.2);
 `;
 
 const CTA = styled.div`
   position: relative;
-  background: linear-gradient(135deg, #023e8a, #0077b6);
+  background: linear-gradient(135deg, #00C9A7, #009688);
   color: white;
   padding: 3rem;
   border-radius: 16px;
@@ -310,7 +310,7 @@ const CTAButtonWrapper = styled(Link)`
 const CTAButton = styled(motion(Button))`
   padding: 1rem 2.5rem;
   background: white;
-  color: #0077b6;
+  color: #009688;
   font-weight: 600;
   border: none;
   border-radius: 8px;
@@ -326,6 +326,6 @@ const CTADecoration = styled(motion.div)`
   width: 500px;
   height: 500px;
   border-radius: 50%;
-  background: rgba(72, 202, 228, 0.2);
+  background: rgba(0, 201, 167, 0.2);
   z-index: 1;
 `;

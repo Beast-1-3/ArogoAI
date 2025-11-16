@@ -56,6 +56,20 @@ const Navbar = () => {
                   </StyledLink>
                 </NavItem>
               )}
+              {user.role === "doctor" && (
+                <>
+                  <NavItem>
+                    <StyledLink to="/dashboard/doctor/appointments">
+                      Appointments
+                    </StyledLink>
+                  </NavItem>
+                  <NavItem>
+                    <StyledLink to="/dashboard/doctor/availability">
+                      Set Availability
+                    </StyledLink>
+                  </NavItem>
+                </>
+              )}
               <NavItem>
                 <StyledLink to={`/dashboard/${user.role}`}>
                   Dashboard
@@ -95,7 +109,7 @@ const Navbar = () => {
 export default Navbar;
 
 const Nav = styled.nav`
-  background: linear-gradient(90deg, #0077b6 0%, #023e8a 100%);
+  background: linear-gradient(90deg, #00C9A7 0%, #00B596 100%);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 100vw;
   position: sticky;
@@ -114,7 +128,7 @@ const NavContainer = styled.div`
 `;
 
 const LogoSpan = styled.span`
-  color: #48cae4;
+  color: #e6fffa;
   font-weight: 800;
 `;
 
@@ -149,8 +163,8 @@ const StyledLink = styled(Link)`
 `;
 
 const SignUpButton = styled(Link)`
-  background-color: #48cae4;
-  color: #023e8a;
+  background-color: white;
+  color: #009688;
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
@@ -173,8 +187,8 @@ const ProfileAvatar = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #48cae4 0%, #0077b6 100%);
-  color: white;
+  background: linear-gradient(135deg, #ffffff 0%, #e6fffa 100%);
+  color: #009688;
   display: flex;
   align-items: center;
   justify-content: center;

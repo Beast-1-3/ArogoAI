@@ -18,7 +18,7 @@ const Container = styled.div`
   align-items: center;
   min-height: 100vh;
   padding: 2rem 0;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+  background: linear-gradient(135deg, #e6fffa 0%, #ffffff 100%);
 `;
 
 const RegisterBox = styled(motion.div)`
@@ -46,7 +46,7 @@ const RegisterBox = styled(motion.div)`
 `;
 
 const StyledButton = styled(motion.button)`
-  background: #4f46e5;
+  background: #00C9A7;
   color: white;
   border: none;
   border-radius: 8px;
@@ -58,7 +58,7 @@ const StyledButton = styled(motion.button)`
   transition: background 0.2s ease;
 
   &:hover {
-    background: #4338ca;
+    background: #00B596;
   }
 `;
 
@@ -113,18 +113,18 @@ const RoleSelector = styled.div`
 const RoleOption = styled(motion.div)`
   flex: 1;
   padding: 1rem;
-  border: 1px solid ${(props) => (props.selected ? "#4f46e5" : "#e2e8f0")};
+  border: 1px solid ${(props) => (props.selected ? "#00C9A7" : "#e2e8f0")};
   border-radius: 8px;
   background: ${(props) =>
-    props.selected ? "rgba(79, 70, 229, 0.05)" : "white"};
-  color: ${(props) => (props.selected ? "#4f46e5" : "#4a5568")};
+    props.selected ? "rgba(0, 201, 167, 0.1)" : "white"};
+  color: ${(props) => (props.selected ? "#009688" : "#4a5568")};
   font-weight: ${(props) => (props.selected ? "500" : "normal")};
   cursor: pointer;
   text-align: center;
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: #4f46e5;
+    border-color: #00C9A7;
   }
 `;
 

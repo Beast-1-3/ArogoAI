@@ -14,7 +14,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+  background: linear-gradient(135deg, #e6fffa 0%, #ffffff 100%);
 `;
 
 const LoginBox = styled(motion.div)`
@@ -47,7 +47,7 @@ const LoginBox = styled(motion.div)`
 `;
 
 const StyledButton = styled(motion.button)`
-  background: #4f46e5;
+  background: #00C9A7;
   color: white;
   border: none;
   border-radius: 8px;
@@ -59,12 +59,12 @@ const StyledButton = styled(motion.button)`
   transition: background 0.2s ease;
 
   &:hover {
-    background: #4338ca;
+    background: #00B596;
   }
 `;
 
 const LoadingButton = styled(StyledButton)`
-  background: #7c3aed;
+  background: #009688;
   cursor: not-allowed;
   opacity: 0.7;
 `;
