@@ -289,7 +289,7 @@ const LoadingText = styled.p`
 `;
 
 const WelcomeCard = styled(motion.div)`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #00C9A7 0%, #00B596 100%);
   border-radius: 16px;
   padding: 2rem;
   color: white;
@@ -406,7 +406,7 @@ const SectionHeader = styled.h3`
   border-bottom: 1px solid #e2e8f0;
 
   svg {
-    color: #667eea;
+    color: #00C9A7;
   }
 `;
 
@@ -423,7 +423,7 @@ const AppointmentItem = styled(motion.div)`
   padding: 1rem;
   background: ${(props) => (props.cancelled ? "#f7fafc" : "#fafbfc")};
   border-radius: 10px;
-  border-left: 3px solid ${(props) => (props.cancelled ? "#cbd5e0" : "#667eea")};
+  border-left: 3px solid ${(props) => (props.cancelled ? "#cbd5e0" : "#00C9A7")};
   opacity: ${(props) => (props.cancelled ? 0.7 : 1)};
 `;
 
@@ -456,8 +456,8 @@ const AppointmentStatus = styled.div`
   font-size: 0.75rem;
   font-weight: 500;
   background: ${(props) =>
-    props.status === "cancelled" ? "#fed7d7" : "#c6f6d5"};
-  color: ${(props) => (props.status === "cancelled" ? "#c53030" : "#276749")};
+    props.status === "cancelled" ? "#fed7d7" : "#e6fffa"};
+  color: ${(props) => (props.status === "cancelled" ? "#c53030" : "#009688")};
 `;
 
 const EmptyState = styled.div`
@@ -516,7 +516,7 @@ const TipSummary = styled.p`
 
 const ReadMore = styled.span`
   font-size: 0.8rem;
-  color: #667eea;
+  color: #009688;
   font-weight: 500;
 `;
 

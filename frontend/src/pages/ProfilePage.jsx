@@ -5,227 +5,227 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import API from "../services/api";
 import {
-    FiMail,
-    FiCalendar,
-    FiClock,
-    FiUser,
-    FiActivity,
-    FiHeart,
-    FiShield,
+  FiMail,
+  FiCalendar,
+  FiClock,
+  FiUser,
+  FiActivity,
+  FiHeart,
+  FiShield,
 } from "react-icons/fi";
 
 const ProfilePage = () => {
-    const { user, isLoading } = useContext(AuthContext);
+  const { user, isLoading } = useContext(AuthContext);
 
-    // Fetch appointments for patient stats
-    const { data: appointments = [] } = useQuery({
-        queryKey: ["appointments", user?._id],
-        queryFn: async () => {
-            const { data } = await API.get(`/appointments/patient`);
-            return data.data || [];
-        },
-        enabled: !!user && user.role === "patient",
-        staleTime: 1000 * 60 * 5,
-    });
+  // Fetch appointments for patient stats
+  const { data: appointments = [] } = useQuery({
+    queryKey: ["appointments", user?._id],
+    queryFn: async () => {
+      const { data } = await API.get(`/appointments/patient`);
+      return data.data || [];
+    },
+    enabled: !!user && user.role === "patient",
+    staleTime: 1000 * 60 * 5,
+  });
 
-    if (isLoading) {
-        return (
-            <Container>
-                <LoadingText>Loading profile...</LoadingText>
-            </Container>
-        );
-    }
-
-    if (!user) {
-        return (
-            <Container>
-                <ErrorText>Please log in to view your profile.</ErrorText>
-            </Container>
-        );
-    }
-
-    const formatDate = (dateString) => {
-        if (!dateString) return "N/A";
-        const date = new Date(dateString);
-        return date.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-        });
-    };
-
-    // Calculate patient stats
-    const totalAppointments = appointments.length;
-    const completedAppointments = appointments.filter(
-        (apt) => apt.status !== "cancelled" && new Date(apt.date) < new Date()
-    ).length;
-
+  if (isLoading) {
     return (
-        <Container>
-            {/* Hero Section */}
-            <HeroCard
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-            >
-                <HeroBackground />
-                <HeroContent>
-                    <LargeAvatar
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                    >
-                        {user.name ? user.name[0].toUpperCase() : "U"}
-                    </LargeAvatar>
-                    <UserName>{user.name}</UserName>
-                    <RoleBadge>
-                        <FiShield />
-                        {user.role === "doctor" ? "Doctor" : "Patient"}
-                    </RoleBadge>
-                </HeroContent>
-            </HeroCard>
-
-            {/* Stats Grid for Patient */}
-            {user.role === "patient" && (
-                <StatsGrid>
-                    <StatCard
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                    >
-                        <StatIcon color="#667eea">
-                            <FiCalendar />
-                        </StatIcon>
-                        <StatValue>{totalAppointments}</StatValue>
-                        <StatLabel>Total Appointments</StatLabel>
-                    </StatCard>
-
-                    <StatCard
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                    >
-                        <StatIcon color="#10B981">
-                            <FiHeart />
-                        </StatIcon>
-                        <StatValue>{completedAppointments}</StatValue>
-                        <StatLabel>Completed Visits</StatLabel>
-                    </StatCard>
-
-                    <StatCard
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                    >
-                        <StatIcon color="#F59E0B">
-                            <FiActivity />
-                        </StatIcon>
-                        <StatValue>Active</StatValue>
-                        <StatLabel>Account Status</StatLabel>
-                    </StatCard>
-                </StatsGrid>
-            )}
-
-            {/* Info Cards */}
-            <InfoGrid>
-                <InfoCard
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
-                >
-                    <InfoCardHeader>
-                        <FiUser />
-                        <span>Personal Information</span>
-                    </InfoCardHeader>
-                    <InfoCardContent>
-                        <InfoItem>
-                            <InfoIcon>
-                                <FiMail />
-                            </InfoIcon>
-                            <InfoDetails>
-                                <InfoLabel>Email Address</InfoLabel>
-                                <InfoValue>{user.email}</InfoValue>
-                            </InfoDetails>
-                        </InfoItem>
-                        <InfoItem>
-                            <InfoIcon>
-                                <FiUser />
-                            </InfoIcon>
-                            <InfoDetails>
-                                <InfoLabel>Full Name</InfoLabel>
-                                <InfoValue>{user.name}</InfoValue>
-                            </InfoDetails>
-                        </InfoItem>
-                    </InfoCardContent>
-                </InfoCard>
-
-                <InfoCard
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 }}
-                >
-                    <InfoCardHeader>
-                        <FiCalendar />
-                        <span>Account Details</span>
-                    </InfoCardHeader>
-                    <InfoCardContent>
-                        <InfoItem>
-                            <InfoIcon>
-                                <FiCalendar />
-                            </InfoIcon>
-                            <InfoDetails>
-                                <InfoLabel>Member Since</InfoLabel>
-                                <InfoValue>{formatDate(user.createdAt)}</InfoValue>
-                            </InfoDetails>
-                        </InfoItem>
-                        <InfoItem>
-                            <InfoIcon>
-                                <FiClock />
-                            </InfoIcon>
-                            <InfoDetails>
-                                <InfoLabel>Last Login</InfoLabel>
-                                <InfoValue>{formatDate(user.lastLogin)}</InfoValue>
-                            </InfoDetails>
-                        </InfoItem>
-                    </InfoCardContent>
-                </InfoCard>
-            </InfoGrid>
-
-            {/* Doctor-specific info */}
-            {user.role === "doctor" && (
-                <DoctorCard
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                >
-                    <InfoCardHeader>
-                        <FiActivity />
-                        <span>Professional Details</span>
-                    </InfoCardHeader>
-                    <DoctorGrid>
-                        <DoctorItem>
-                            <DoctorLabel>Specialty</DoctorLabel>
-                            <DoctorValue>{user.specialty || "Not specified"}</DoctorValue>
-                        </DoctorItem>
-                        <DoctorItem>
-                            <DoctorLabel>Experience</DoctorLabel>
-                            <DoctorValue>
-                                {user.experience ? `${user.experience} years` : "Not specified"}
-                            </DoctorValue>
-                        </DoctorItem>
-                        <DoctorItem>
-                            <DoctorLabel>Location</DoctorLabel>
-                            <DoctorValue>
-                                {user.location
-                                    ? `${user.location.city}, ${user.location.state}`
-                                    : "Not specified"}
-                            </DoctorValue>
-                        </DoctorItem>
-                    </DoctorGrid>
-                </DoctorCard>
-            )}
-        </Container>
+      <Container>
+        <LoadingText>Loading profile...</LoadingText>
+      </Container>
     );
+  }
+
+  if (!user) {
+    return (
+      <Container>
+        <ErrorText>Please log in to view your profile.</ErrorText>
+      </Container>
+    );
+  }
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  // Calculate patient stats
+  const totalAppointments = appointments.length;
+  const completedAppointments = appointments.filter(
+    (apt) => apt.status !== "cancelled" && new Date(apt.date) < new Date()
+  ).length;
+
+  return (
+    <Container>
+      {/* Hero Section */}
+      <HeroCard
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <HeroBackground />
+        <HeroContent>
+          <LargeAvatar
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+          >
+            {user.name ? user.name[0].toUpperCase() : "U"}
+          </LargeAvatar>
+          <UserName>{user.name}</UserName>
+          <RoleBadge>
+            <FiShield />
+            {user.role === "doctor" ? "Doctor" : "Patient"}
+          </RoleBadge>
+        </HeroContent>
+      </HeroCard>
+
+      {/* Stats Grid for Patient */}
+      {user.role === "patient" && (
+        <StatsGrid>
+          <StatCard
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <StatIcon color="#667eea">
+              <FiCalendar />
+            </StatIcon>
+            <StatValue>{totalAppointments}</StatValue>
+            <StatLabel>Total Appointments</StatLabel>
+          </StatCard>
+
+          <StatCard
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <StatIcon color="#10B981">
+              <FiHeart />
+            </StatIcon>
+            <StatValue>{completedAppointments}</StatValue>
+            <StatLabel>Completed Visits</StatLabel>
+          </StatCard>
+
+          <StatCard
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <StatIcon color="#F59E0B">
+              <FiActivity />
+            </StatIcon>
+            <StatValue>Active</StatValue>
+            <StatLabel>Account Status</StatLabel>
+          </StatCard>
+        </StatsGrid>
+      )}
+
+      {/* Info Cards */}
+      <InfoGrid>
+        <InfoCard
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <InfoCardHeader>
+            <FiUser />
+            <span>Personal Information</span>
+          </InfoCardHeader>
+          <InfoCardContent>
+            <InfoItem>
+              <InfoIcon>
+                <FiMail />
+              </InfoIcon>
+              <InfoDetails>
+                <InfoLabel>Email Address</InfoLabel>
+                <InfoValue>{user.email}</InfoValue>
+              </InfoDetails>
+            </InfoItem>
+            <InfoItem>
+              <InfoIcon>
+                <FiUser />
+              </InfoIcon>
+              <InfoDetails>
+                <InfoLabel>Full Name</InfoLabel>
+                <InfoValue>{user.name}</InfoValue>
+              </InfoDetails>
+            </InfoItem>
+          </InfoCardContent>
+        </InfoCard>
+
+        <InfoCard
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <InfoCardHeader>
+            <FiCalendar />
+            <span>Account Details</span>
+          </InfoCardHeader>
+          <InfoCardContent>
+            <InfoItem>
+              <InfoIcon>
+                <FiCalendar />
+              </InfoIcon>
+              <InfoDetails>
+                <InfoLabel>Member Since</InfoLabel>
+                <InfoValue>{formatDate(user.createdAt)}</InfoValue>
+              </InfoDetails>
+            </InfoItem>
+            <InfoItem>
+              <InfoIcon>
+                <FiClock />
+              </InfoIcon>
+              <InfoDetails>
+                <InfoLabel>Last Login</InfoLabel>
+                <InfoValue>{formatDate(user.lastLogin)}</InfoValue>
+              </InfoDetails>
+            </InfoItem>
+          </InfoCardContent>
+        </InfoCard>
+      </InfoGrid>
+
+      {/* Doctor-specific info */}
+      {user.role === "doctor" && (
+        <DoctorCard
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <InfoCardHeader>
+            <FiActivity />
+            <span>Professional Details</span>
+          </InfoCardHeader>
+          <DoctorGrid>
+            <DoctorItem>
+              <DoctorLabel>Specialty</DoctorLabel>
+              <DoctorValue>{user.specialty || "Not specified"}</DoctorValue>
+            </DoctorItem>
+            <DoctorItem>
+              <DoctorLabel>Experience</DoctorLabel>
+              <DoctorValue>
+                {user.experience ? `${user.experience} years` : "Not specified"}
+              </DoctorValue>
+            </DoctorItem>
+            <DoctorItem>
+              <DoctorLabel>Location</DoctorLabel>
+              <DoctorValue>
+                {user.location
+                  ? `${user.location.city}, ${user.location.state}`
+                  : "Not specified"}
+              </DoctorValue>
+            </DoctorItem>
+          </DoctorGrid>
+        </DoctorCard>
+      )}
+    </Container>
+  );
 };
 
 export default ProfilePage;
@@ -261,7 +261,7 @@ const HeroCard = styled(motion.div)`
 
 const HeroBackground = styled.div`
   height: 120px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #00C9A7 0%, #00B596 100%);
 `;
 
 const HeroContent = styled.div`
@@ -276,7 +276,7 @@ const LargeAvatar = styled(motion.div)`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #00C9A7 0%, #00B596 100%);
   color: white;
   display: flex;
   align-items: center;
@@ -284,7 +284,7 @@ const LargeAvatar = styled(motion.div)`
   font-size: 2.5rem;
   font-weight: 700;
   border: 4px solid white;
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 201, 167, 0.3);
 `;
 
 const UserName = styled.h1`
@@ -298,7 +298,7 @@ const RoleBadge = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #00C9A7 0%, #00B596 100%);
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -380,7 +380,7 @@ const InfoCardHeader = styled.div`
   color: #2d3748;
 
   svg {
-    color: #667eea;
+    color: #009688;
   }
 `;
 
@@ -408,7 +408,7 @@ const InfoIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #667eea;
+  color: #009688;
 `;
 
 const InfoDetails = styled.div``;

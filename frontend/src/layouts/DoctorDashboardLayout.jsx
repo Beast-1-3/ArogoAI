@@ -1,12 +1,17 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import DoctorSidebar from "../components/DoctorSidebar";
+import Navbar from "../components/Navbar";
+import { motion } from "framer-motion";
 
 const DoctorDashboardLayout = () => {
   return (
     <Container>
-      <DoctorSidebar />
-      <MainContent>
+      <Navbar />
+      <MainContent
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <Outlet />
       </MainContent>
     </Container>
@@ -16,20 +21,16 @@ const DoctorDashboardLayout = () => {
 export default DoctorDashboardLayout;
 
 const Container = styled.div`
-  display: flex;
   min-height: 100vh;
-  background-color: #fff;
+  background-color: #f5f7fa;
+  display: flex;
+  flex-direction: column;
 `;
 
-const MainContent = styled.div`
-  flex-grow: 1;
+const MainContent = styled(motion.div)`
   padding: 2rem;
-  background: white;
-  border-radius: 10px;
-  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
-  overflow-y: auto;
-  /* margin: 1rem; */
-  /* min-height: calc(100vh - 2rem); */
-  height: 100vh;
-  /* width: 100%; */
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  flex-grow: 1;
 `;

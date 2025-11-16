@@ -124,7 +124,7 @@ const AvatarCircle = styled.div`
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #2c7be5 0%, #1a5bb6 100%);
+  background: linear-gradient(135deg, #00C9A7 0%, #00B596 100%);
   color: white;
   display: flex;
   align-items: center;
@@ -132,7 +132,7 @@ const AvatarCircle = styled.div`
   font-size: 2rem;
   font-weight: 600;
   margin: 0 auto 1.5rem;
-  box-shadow: 0 4px 12px rgba(42, 123, 229, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 201, 167, 0.3);
 `;
 
 const ProfileHeader = styled.div`
@@ -209,28 +209,28 @@ const AvailabilityList = styled.ul`
 `;
 
 const AvailabilityItem = styled(motion.li)`
-  background: #f0f9ff;
+  background: #e6fffa;
   padding: 1rem;
   border-radius: 12px;
-  border-left: 4px solid #0ea5e9;
+  border-left: 4px solid #00C9A7;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   transition: all 0.2s ease;
 
   &:hover {
-    background: #e0f2fe;
+    background: #b2f5ea;
     transform: translateX(4px);
   }
 `;
 
 const SlotDate = styled.div`
   font-weight: 600;
-  color: #0c4a6e;
+  color: #009688;
 `;
 
 const SlotTimes = styled.div`
-  color: #0369a1;
+  color: #00796b;
   font-size: 0.95rem;
 `;
 

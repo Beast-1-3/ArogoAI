@@ -64,7 +64,7 @@ const AvatarCircle = styled.div`
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  background: linear-gradient(135deg, #00C9A7 0%, #00B596 100%);
   color: white;
   display: flex;
   align-items: center;
@@ -72,7 +72,7 @@ const AvatarCircle = styled.div`
   font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  box-shadow: 0 5px 15px rgba(37, 117, 252, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 201, 167, 0.2);
 `;
 
 const DoctorName = styled.h3`
@@ -83,7 +83,7 @@ const DoctorName = styled.h3`
 `;
 
 const Specialty = styled.div`
-  color: #2575fc;
+  color: #009688;
   font-weight: 500;
   font-size: 0.95rem;
   margin-bottom: 1.5rem;
@@ -91,7 +91,7 @@ const Specialty = styled.div`
 
 const InfoContainer = styled.div`
   width: 100%;
-  background: #f8faff;
+  background: #f0fdfa;
   border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1.5rem;
@@ -127,14 +127,14 @@ const ViewProfileButton = styled(motion(Link))`
   display: inline-block;
   padding: 0.8rem 0;
   width: 100%;
-  background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+  background: linear-gradient(135deg, #00C9A7 0%, #00B596 100%);
   color: white;
   text-decoration: none;
   border-radius: 12px;
   font-size: 0.95rem;
   font-weight: 600;
   text-align: center;
-  box-shadow: 0 5px 15px rgba(37, 117, 252, 0.15);
+  box-shadow: 0 5px 15px rgba(0, 201, 167, 0.15);
   position: relative;
   overflow: hidden;
 
