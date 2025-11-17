@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import API from "../services/api";
 import AuthContext from "../context/AuthContext";
+import Toast from "../components/Toast";
 
 const DoctorProfile = () => {
   const { id } = useParams();
@@ -12,6 +13,7 @@ const DoctorProfile = () => {
   const [loading, setLoading] = useState(true);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [bookedSlots, setBookedSlots] = useState([]);
 
   useEffect(() => {
     const fetchDoctorDetails = async () => {
@@ -27,7 +29,27 @@ const DoctorProfile = () => {
     fetchDoctorDetails();
   }, [id]);
 
+  useEffect(() => {
+    const fetchBookedSlots = async () => {
+      try {
+        const { data } = await API.get(`/appointments/doctor/${id}/booked`);
+        setBookedSlots(data.data);
+      } catch (error) {
+        console.error("Error fetching booked slots", error);
+      }
+    };
+    if (id) fetchBookedSlots();
+  }, [id]);
+
+  /* eslint-disable no-unused-vars */
+  const [toastMessage, setToastMessage] = useState("");
+
   const handleBookAppointment = () => {
+    if (filteredAvailability.length === 0) {
+      setToastMessage("No slots available for booking");
+      return;
+    }
+
     if (!user) {
       navigate("/login");
     } else if (user.role !== "patient") {
@@ -44,6 +66,17 @@ const DoctorProfile = () => {
         <span>Loading doctor profile...</span>
       </LoadingWrapper>
     );
+
+  const filteredAvailability = doctor?.availability
+    ?.map((slot) => ({
+      ...slot,
+      slots: slot.slots.filter((time) => {
+        return !bookedSlots.some(
+          (booked) => booked.date === slot.date && booked.time === time
+        );
+      }),
+    }))
+    .filter((slot) => slot.slots.length > 0);
 
   return (
     <ProfileContainer
@@ -83,9 +116,9 @@ const DoctorProfile = () => {
 
         <AvailabilitySection>
           <SectionTitle>Available Slots</SectionTitle>
-          {doctor?.availability.length > 0 ? (
+          {filteredAvailability?.length > 0 ? (
             <AvailabilityList>
-              {doctor.availability.map((slot, index) => (
+              {filteredAvailability.map((slot, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, x: -10 }}
@@ -116,6 +149,13 @@ const DoctorProfile = () => {
           Book Appointment
         </BookAppointmentButton>
       </ProfileCard>
+      {toastMessage && (
+        <Toast
+          message={toastMessage}
+          type="error"
+          onClose={() => setToastMessage("")}
+        />
+      )}
     </ProfileContainer>
   );
 };
@@ -149,7 +189,7 @@ const ProfileCard = styled.div`
 const Avatar = styled.div`
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  background: linear-gradient(135deg, #00C9A7 0%, #00B596 100%);
   color: white;
   font-size: 2rem;
   font-weight: 600;
@@ -158,7 +198,7 @@ const Avatar = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 auto 1.5rem;
-  box-shadow: 0 4px 15px rgba(37, 117, 252, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 201, 167, 0.2);
 `;
 
 const ProfileHeader = styled.div`
@@ -175,7 +215,7 @@ const DoctorName = styled.h2`
 
 const Specialty = styled.h3`
   font-size: 1.1rem;
-  color: #2575fc;
+  color: #00C9A7;
   font-weight: 500;
   margin-bottom: 1.5rem;
 `;
@@ -245,8 +285,8 @@ const AvailabilityItem = styled.div`
 
 const DateBadge = styled.div`
   display: inline-block;
-  background: #eef2ff;
-  color: #2575fc;
+  background: #e6fffa;
+  color: #009688;
   font-weight: 500;
   padding: 0.4rem 0.8rem;
   border-radius: 6px;
@@ -279,7 +319,7 @@ const NoSlotsMessage = styled.p`
 `;
 
 const BookAppointmentButton = styled(motion.button)`
-  background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+  background: #00C9A7;
   color: white;
   border: none;
   padding: 1rem 1.5rem;
@@ -289,8 +329,12 @@ const BookAppointmentButton = styled(motion.button)`
   margin-top: 1.5rem;
   cursor: pointer;
   width: 100%;
-  box-shadow: 0 4px 15px rgba(37, 117, 252, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 201, 167, 0.2);
   transition: all 0.3s ease;
+
+  &:hover {
+    background: #00B596;
+  }
 `;
 
 const LoadingWrapper = styled.div`

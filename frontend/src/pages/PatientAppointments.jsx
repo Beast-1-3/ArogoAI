@@ -28,7 +28,7 @@ const PatientAppointments = () => {
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
   });
 
-  
+
   const handleCancelClick = (appointment) => {
     setSelectedAppointment(appointment);
     setShowModal(true);
@@ -59,65 +59,68 @@ const PatientAppointments = () => {
       <PageTitle>Your Appointments</PageTitle>
 
       <AnimatePresence>
-        {appointments.length > 0 ? (
+        {appointments &&
+          appointments.filter((a) => a.status !== "cancelled").length > 0 ? (
           <AppointmentsList>
-            {appointments.map((appointment, index) => (
-              <AppointmentCard
-                key={appointment._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{
-                  duration: 0.4,
-                  delay: index * 0.1,
-                  ease: "easeOut",
-                }}
-                whileHover={{
-                  y: -5,
-                  boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)",
-                }}
-                cancelled={appointment.status === "cancelled"}
-              >
-                <DoctorInfo>
-                  <DoctorName>
-                    <FiUser />
-                    <span>{appointment?.doctor?.user?.name}</span>
-                  </DoctorName>
-                  <InfoItem>
-                    <strong>Specialty:</strong> {appointment?.doctor?.specialty}
-                  </InfoItem>
-                  <InfoItem>
-                    <FiMapPin />
-                    <span>
-                      {appointment?.doctor?.location?.city},{" "}
-                      {appointment.doctor.location.state}
-                    </span>
-                  </InfoItem>
-                </DoctorInfo>
+            {appointments
+              .filter((appointment) => appointment.status !== "cancelled")
+              .map((appointment, index) => (
+                <AppointmentCard
+                  key={appointment._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: index * 0.1,
+                    ease: "easeOut",
+                  }}
+                  whileHover={{
+                    y: -5,
+                    boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)",
+                  }}
+                  cancelled={appointment.status === "cancelled"}
+                >
+                  <DoctorInfo>
+                    <DoctorName>
+                      <FiUser />
+                      <span>{appointment?.doctor?.user?.name}</span>
+                    </DoctorName>
+                    <InfoItem>
+                      <strong>Specialty:</strong> {appointment?.doctor?.specialty}
+                    </InfoItem>
+                    <InfoItem>
+                      <FiMapPin />
+                      <span>
+                        {appointment?.doctor?.location?.city},{" "}
+                        {appointment.doctor.location.state}
+                      </span>
+                    </InfoItem>
+                  </DoctorInfo>
 
-                <SlotInfo>
-                  <AppointmentTime>
-                    <FiCalendar />
-                    <span>{`${appointment?.time} on ${appointment?.date}`}</span>
-                  </AppointmentTime>
+                  <SlotInfo>
+                    <AppointmentTime>
+                      <FiCalendar />
+                      <span>{`${appointment?.time} on ${appointment?.date}`}</span>
+                    </AppointmentTime>
 
-                  {appointment.status !== "cancelled" && (
-                    <CancelButton
-                      onClick={() => handleCancelClick(appointment)}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <FiTrash2 /> Cancel
-                    </CancelButton>
-                  )}
-                  <StatusBadge status={appointment.status}>
-                    {appointment.status === "cancelled"
-                      ? "Cancelled"
-                      : "Booked"}
-                  </StatusBadge>
-                </SlotInfo>
-              </AppointmentCard>
-            ))}
+                    {appointment.status !== "cancelled" && (
+                      <CancelButton
+                        onClick={() => handleCancelClick(appointment)}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <FiTrash2 /> Cancel
+                      </CancelButton>
+                    )}
+                    <StatusBadge status={appointment.status}>
+                      {appointment.status === "cancelled"
+                        ? "Cancelled"
+                        : "Booked"}
+                    </StatusBadge>
+                  </SlotInfo>
+                </AppointmentCard>
+              ))}
           </AppointmentsList>
         ) : (
           <NoAppointments
@@ -182,10 +185,10 @@ const StatusBadge = styled.span`
   font-size: 0.85rem;
   font-weight: 500;
   background-color: ${(props) =>
-    props.status === "cancelled" ? "#f3f4f6" : "#ebf8ff"};
-  color: ${(props) => (props.status === "cancelled" ? "#9ca3af" : "#3182ce")};
+    props.status === "cancelled" ? "#f3f4f6" : "#e6fffa"};
+  color: ${(props) => (props.status === "cancelled" ? "#9ca3af" : "#009688")};
   border: 1px solid
-    ${(props) => (props.status === "cancelled" ? "#e5e7eb" : "#bee3f8")};
+    ${(props) => (props.status === "cancelled" ? "#e5e7eb" : "#00C9A7")};
 `;
 
 const Container = styled(motion.div)`
@@ -223,7 +226,7 @@ const AppointmentCard = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-left: 4px solid ${(props) => (props.cancelled ? "#cbd5e0" : "#3182ce")};
+  border-left: 4px solid ${(props) => (props.cancelled ? "#cbd5e0" : "#00C9A7")};
   transition: all 0.3s ease;
   opacity: ${(props) => (props.cancelled ? 0.6 : 1)};
 `;
@@ -244,7 +247,7 @@ const DoctorName = styled.h3`
   margin-bottom: 0.75rem;
 
   svg {
-    color: #3182ce;
+    color: #00C9A7;
   }
 `;
 
@@ -257,7 +260,7 @@ const InfoItem = styled.p`
   font-size: 0.95rem;
 
   svg {
-    color: #718096;
+    color: #00C9A7;
   }
 
   strong {
@@ -283,7 +286,7 @@ const AppointmentTime = styled.p`
   border-radius: 6px;
 
   svg {
-    color: #3182ce;
+    color: #00C9A7;
   }
 `;
 
@@ -322,13 +325,13 @@ const NoAppointments = styled(motion.div)`
 
 const BookNowLink = styled(motion.a)`
   display: inline-block;
-  background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+  background: #00C9A7;
   color: white;
   text-decoration: none;
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
   font-weight: 500;
-  box-shadow: 0 5px 15px rgba(37, 117, 252, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 201, 167, 0.2);
   transition: all 0.3s ease;
 `;
 
