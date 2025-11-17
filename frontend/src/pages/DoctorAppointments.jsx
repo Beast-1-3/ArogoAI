@@ -50,7 +50,8 @@ const DoctorAppointments = () => {
     const appointmentDate = new Date(`${appointment.date} ${appointment.time}`);
     const today = new Date();
 
-    if (view === "upcoming") return appointmentDate >= today;
+    if (view === "upcoming")
+      return appointmentDate >= today && appointment.status !== "cancelled";
     if (view === "past") return appointmentDate < today;
     return true; // "all" view
   });
@@ -135,11 +136,13 @@ const DoctorAppointments = () => {
                     <FiUser />
                     {appointment.patient.name}
                   </PatientName>
-                  <AppointmentStatus>
-                    {new Date(`${appointment.date} ${appointment.time}`) >
-                    new Date()
-                      ? "Upcoming"
-                      : "Completed"}
+                  <AppointmentStatus status={appointment.status}>
+                    {appointment.status === "cancelled"
+                      ? "Cancelled"
+                      : new Date(`${appointment.date} ${appointment.time}`) >
+                        new Date()
+                        ? "Upcoming"
+                        : "Completed"}
                   </AppointmentStatus>
                 </AppointmentHeader>
 
@@ -189,8 +192,8 @@ const DoctorAppointments = () => {
 export default DoctorAppointments;
 
 const Container = styled(motion.div)`
-  /* max-width: 900px; */
-  width: 76vw;
+  max-width: 1000px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
 `;
@@ -213,7 +216,7 @@ const RefreshButton = styled(motion.button)`
   align-items: center;
   gap: 0.5rem;
   background: white;
-  color: #4299e1;
+  color: #009688;
   border: 1px solid #e2e8f0;
   padding: 0.6rem 1rem;
   border-radius: 8px;
@@ -242,7 +245,7 @@ const ViewButton = styled(motion.button)`
   border: none;
   border-radius: 8px;
   background: ${(props) => (props.active ? "white" : "transparent")};
-  color: ${(props) => (props.active ? "#4299e1" : "#718096")};
+  color: ${(props) => (props.active ? "#009688" : "#718096")};
   font-weight: ${(props) => (props.active ? "600" : "500")};
   cursor: pointer;
   transition: all 0.2s ease;
@@ -261,7 +264,7 @@ const LoadingContainer = styled(motion.div)`
 const LoadingSpinner = styled.div`
   margin-bottom: 1rem;
   font-size: 2rem;
-  color: #4299e1;
+  color: #00C9A7;
   animation: spin 1.5s linear infinite;
 
   @keyframes spin {
@@ -311,15 +314,16 @@ const PatientName = styled.h3`
   gap: 0.5rem;
 
   svg {
-    color: #4299e1;
+    color: #00C9A7;
     font-size: 1rem;
   }
 `;
 
 const AppointmentStatus = styled.span`
   padding: 0.3rem 0.8rem;
-  background: #ebf8ff;
-  color: #3182ce;
+  background: ${(props) =>
+    props.status === "cancelled" ? "#edf2f7" : "#e6fffa"};
+  color: ${(props) => (props.status === "cancelled" ? "#a0aec0" : "#009688")};
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 500;
@@ -345,7 +349,7 @@ const DetailIcon = styled.div`
   justify-content: center;
   background: #f7fafc;
   border-radius: 8px;
-  color: #4299e1;
+  color: #00C9A7;
 `;
 
 const DetailText = styled.p`

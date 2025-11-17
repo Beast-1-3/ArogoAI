@@ -182,14 +182,14 @@ const FloatingButton = styled(motion.button)`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  background: linear-gradient(135deg, #00C9A7, #00B596);
   color: white;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(0, 119, 182, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 201, 167, 0.4);
   z-index: 1000;
 `;
 
@@ -220,7 +220,7 @@ const ChatHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem;
-  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  background: linear-gradient(135deg, #00C9A7, #00B596);
   color: white;
 `;
 
@@ -261,7 +261,7 @@ const HeaderActions = styled.div`
 const ActionButton = styled.button`
   background: rgba(255, 255, 255, 0.9);
   border: none;
-  color: #0077b6;
+  color: #009688;
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -272,8 +272,8 @@ const ActionButton = styled.button`
   transition: all 0.2s ease;
 
   svg {
-    color: #0077b6;
-    stroke: #0077b6;
+    color: #009688;
+    stroke: #009688;
   }
 
   &:hover {
@@ -317,7 +317,7 @@ const MessageBubble = styled.div`
   border-radius: ${(props) =>
     props.isUser ? "16px 16px 4px 16px" : "16px 16px 16px 4px"};
   background: ${(props) =>
-    props.isUser ? "linear-gradient(135deg, #0077b6, #00b4d8)" : "white"};
+    props.isUser ? "linear-gradient(135deg, #00C9A7, #00B596)" : "white"};
   color: ${(props) => (props.isUser ? "white" : "#1e293b")};
   font-size: 0.9rem;
   line-height: 1.5;
@@ -376,7 +376,7 @@ const ChatInput = styled.input`
 
   &:focus {
     outline: none;
-    border-color: #0096c7;
+    border-color: #009688;
     background: white;
   }
 
@@ -393,7 +393,7 @@ const SendButton = styled(motion.button)`
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  background: linear-gradient(135deg, #00C9A7, #00B596);
   color: white;
   border: none;
   cursor: pointer;

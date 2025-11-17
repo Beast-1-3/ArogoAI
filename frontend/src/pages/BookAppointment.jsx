@@ -18,6 +18,7 @@ const BookAppointment = () => {
   const navigate = useNavigate();
   const { user, isLoading: isAuthLoading } = useAuth();
   const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookedSlots, setBookedSlots] = useState([]);
 
   const queryClient = useQueryClient();
 
@@ -34,6 +35,32 @@ const BookAppointment = () => {
     };
     fetchDoctorDetails();
   }, [id]);
+
+  useEffect(() => {
+    const fetchBookedSlots = async () => {
+      try {
+        const { data } = await API.get(`/appointments/doctor/${id}/booked`);
+        setBookedSlots(data.data);
+      } catch (error) {
+        console.error("Error fetching booked slots", error);
+      }
+    };
+    if (id) fetchBookedSlots();
+  }, [id]);
+
+  // Compute dates that have at least one available slot
+  const availableDates = doctor?.availability?.filter((day) => {
+    if (!day.slots || day.slots.length === 0) return false;
+
+    // Check if there is at least one slot strictly not in bookedSlots
+    const hasFreeSlot = day.slots.some((time) => {
+      return !bookedSlots.some(
+        (booked) => booked.date === day.date && booked.time === time
+      );
+    });
+
+    return hasFreeSlot;
+  }) || [];
 
   const handleConfirmBooking = async () => {
     if (!selectedDate || !selectedTime) {
@@ -102,7 +129,7 @@ const BookAppointment = () => {
             whileTap={{ scale: 0.98 }}
           >
             <option value="">Choose a date</option>
-            {doctor?.availability.map((slot, index) => (
+            {availableDates.map((slot, index) => (
               <option key={index} value={slot.date}>
                 {slot.date}
               </option>
@@ -122,7 +149,14 @@ const BookAppointment = () => {
             {selectedDate &&
               doctor?.availability
                 .find((slot) => slot.date === selectedDate)
-                ?.slots.map((time, index) => (
+                ?.slots.filter((time) => {
+                  const isBooked = bookedSlots.some(
+                    (booked) =>
+                      booked.date === selectedDate && booked.time === time
+                  );
+                  return !isBooked;
+                })
+                .map((time, index) => (
                   <option key={index} value={time}>
                     {time}
                   </option>
@@ -206,7 +240,7 @@ const LoadingText = styled.p`
 `;
 
 const BookingHeader = styled.div`
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  background: linear-gradient(135deg, #00C9A7 0%, #00B596 100%);
   padding: 2.5rem 2rem;
   color: white;
   text-align: center;
@@ -348,12 +382,12 @@ const PreviewDetail = styled.p`
 
   span {
     font-weight: 600;
-    color: #2575fc;
+    color: #00C9A7;
   }
 `;
 
 const ConfirmButton = styled(motion.button)`
-  background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+  background: #00C9A7;
   color: white;
   border: none;
   padding: 1rem;
@@ -362,12 +396,16 @@ const ConfirmButton = styled(motion.button)`
   font-weight: 600;
   width: 100%;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(37, 117, 252, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 201, 167, 0.3);
   margin-bottom: 1rem;
   transition: all 0.3s ease;
 
+  &:hover {
+    background: #00B596;
+  }
+
   &:disabled {
-    background: linear-gradient(135deg, #a0a0a0 0%, #767676 100%);
+    background: #ccc;
     cursor: not-allowed;
     box-shadow: none;
   }

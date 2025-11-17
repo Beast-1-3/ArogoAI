@@ -56,12 +56,20 @@ const DoctorSearchPage = () => {
     fetchRandomDoctors();
   }, []);
 
+  // Combine default cities with cities from database
+  const allLocations = [
+    ...new Set([
+      ...indianCities,
+      ...doctors.map(d => d.location?.city).filter(Boolean)
+    ])
+  ].sort();
+
   // Filter location suggestions based on input
   const handleLocationChange = (value) => {
     setLocation(value);
     setActiveFilter("location");
     if (value.length > 0) {
-      const filtered = indianCities.filter(city =>
+      const filtered = allLocations.filter(city =>
         city.toLowerCase().startsWith(value.toLowerCase())
       );
       setLocationSuggestions(filtered.slice(0, 5));
@@ -445,7 +453,7 @@ const SearchTitle = styled.h2`
   font-size: 2.75rem;
   font-weight: 800;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  background: linear-gradient(135deg, #00C9A7, #00B596);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.5px;
@@ -463,9 +471,9 @@ const SearchSection = styled.div`
   margin-bottom: 2.5rem;
   background: linear-gradient(145deg, #ffffff, #f8fafc);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 119, 182, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 201, 167, 0.08);
   padding: 2rem;
-  border: 1px solid rgba(0, 180, 216, 0.15);
+  border: 1px solid rgba(0, 201, 167, 0.15);
 `;
 
 const MainSearchContainer = styled.div`
@@ -492,8 +500,8 @@ const SearchInputWrapper = styled.div`
   transition: all 0.2s ease;
 
   &:focus-within {
-    border-color: #0096c7;
-    box-shadow: 0 0 0 4px rgba(0, 150, 199, 0.15);
+    border-color: #009688;
+    box-shadow: 0 0 0 4px rgba(0, 201, 167, 0.15);
     background: white;
   }
 `;
@@ -541,14 +549,14 @@ const SearchButtonStyled = styled(motion.button)`
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: linear-gradient(to right, #0077b6, #0096c7);
+  background: linear-gradient(to right, #00C9A7, #00B596);
   color: white;
   border: none;
   padding: 0.9rem 1.5rem;
   border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 119, 182, 0.2);
+  box-shadow: 0 4px 10px rgba(0, 201, 167, 0.2);
 
   @media (max-width: 768px) {
     margin-top: 0.75rem;
@@ -589,8 +597,8 @@ const DropdownDetails = styled.div`
 `;
 
 const SpecialtyBadge = styled.span`
-  background: #e9f7fc;
-  color: #0096c7;
+  background: #e6fffa;
+  color: #009688;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.75rem;
@@ -615,17 +623,17 @@ const FilterToggleButton = styled(motion.button)`
   gap: 0.5rem;
   padding: 0.6rem 1rem;
   border-radius: 100px;
-  border: 1px solid ${(props) => (props.active ? "#0077b6" : "#e2e8f0")};
-  background: ${(props) => (props.active ? "#f0f9ff" : "white")};
-  color: ${(props) => (props.active ? "#0077b6" : "#475569")};
+  border: 1px solid ${(props) => (props.active ? "#00C9A7" : "#e2e8f0")};
+  background: ${(props) => (props.active ? "#e6fffa" : "white")};
+  color: ${(props) => (props.active ? "#009688" : "#475569")};
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: #0077b6;
-    background: #f0f9ff;
+    border-color: #00C9A7;
+    background: #e6fffa;
   }
 `;
 
@@ -633,7 +641,7 @@ const ActiveDot = styled.div`
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #0077b6;
+  background: #00C9A7;
 `;
 
 const FilterPanel = styled(motion.div)`
@@ -667,7 +675,7 @@ const FilterPanelLabel = styled.div`
   margin-bottom: 0.75rem;
 
   svg {
-    color: #0077b6;
+    color: #009688;
   }
 `;
 
@@ -701,7 +709,7 @@ const FilterIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0077b6;
+  color: #009688;
 `;
 
 const DropdownWrapper = styled.div`
@@ -752,8 +760,8 @@ const DropdownOption = styled.div`
   padding: 0.85rem 1rem;
   cursor: pointer;
   font-size: 0.95rem;
-  color: ${(props) => (props.selected ? "#0077b6" : "#475569")};
-  background: ${(props) => (props.selected ? "#f0f9ff" : "white")};
+  color: ${(props) => (props.selected ? "#009688" : "#475569")};
+  background: ${(props) => (props.selected ? "#e6fffa" : "white")};
   font-weight: ${(props) => (props.selected ? "600" : "400")};
   transition: all 0.15s ease;
   border-bottom: 1px solid #f1f5f9;
@@ -763,8 +771,8 @@ const DropdownOption = styled.div`
   }
 
   &:hover {
-    background: #f0f9ff;
-    color: #0077b6;
+    background: #e6fffa;
+    color: #009688;
   }
 `;
 

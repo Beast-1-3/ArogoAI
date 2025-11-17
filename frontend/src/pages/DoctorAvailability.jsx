@@ -71,7 +71,9 @@ const DoctorAvailability = () => {
       setSelectedDate("");
       setSelectedSlots([]);
     } catch (error) {
-      setToastMessage("Error updating availability.");
+      setToastMessage(
+        error.response?.data?.message || "Error updating availability."
+      );
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -95,7 +97,7 @@ const DoctorAvailability = () => {
       setAvailability(updatedAvailability);
       setToastMessage("Slot removed successfully.");
     } catch (error) {
-      setToastMessage("Error removing slot.");
+      setToastMessage(error.response?.data?.message || "Error removing slot.");
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -115,7 +117,9 @@ const DoctorAvailability = () => {
       setAvailability(updatedAvailability);
       setToastMessage("Availability removed successfully.");
     } catch (error) {
-      setToastMessage("Error removing availability.");
+      setToastMessage(
+        error.response?.data?.message || "Error removing availability."
+      );
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -239,8 +243,14 @@ const DoctorAvailability = () => {
                     <DateText>{formatDate(slot.date)}</DateText>
                     <RemoveDateButton
                       onClick={() => handleRemoveDate(slot.date)}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
+                      whileHover={{
+                        scale: 1.05,
+                        backgroundColor: "#ef4444",
+                        color: "white",
+                        borderColor: "#ef4444",
+                        boxShadow: "0 4px 12px rgba(239, 68, 68, 0.3)",
+                      }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       <FiTrash2 />
                     </RemoveDateButton>
@@ -292,9 +302,9 @@ const DoctorAvailability = () => {
 export default DoctorAvailability;
 
 const Container = styled(motion.div)`
-  /* max-width: 900px; */
-  width: 75vw;
-  height: 85vh;
+  max-width: 900px;
+  width: 100%;
+  min-height: 100%;
 
   margin: 0 auto;
   padding: 2rem;
@@ -340,7 +350,7 @@ const CardTitle = styled.h3`
   color: #2d3748;
 
   svg {
-    color: #4299e1;
+    color: #00C9A7;
   }
 `;
 
@@ -357,7 +367,7 @@ const Label = styled.p`
   gap: 0.5rem;
 
   svg {
-    color: #4299e1;
+    color: #00C9A7;
   }
 `;
 
@@ -376,8 +386,8 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+    border-color: #00C9A7;
+    box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.15);
   }
 `;
 
@@ -390,9 +400,9 @@ const SlotButtons = styled.div`
 
 const SlotButton = styled(motion.button)`
   background: ${(props) =>
-    props.selected ? "linear-gradient(135deg, #3182ce, #4299e1)" : "white"};
+    props.selected ? "linear-gradient(135deg, #00C9A7, #00B596)" : "white"};
   color: ${(props) => (props.selected ? "white" : "#4a5568")};
-  border: 1px solid ${(props) => (props.selected ? "#3182ce" : "#e2e8f0")};
+  border: 1px solid ${(props) => (props.selected ? "#00C9A7" : "#e2e8f0")};
   padding: 0.7rem 1.2rem;
   border-radius: 8px;
   cursor: pointer;
@@ -403,7 +413,7 @@ const SlotButton = styled(motion.button)`
   justify-content: center;
   box-shadow: ${(props) =>
     props.selected
-      ? "0 4px 12px rgba(66, 153, 225, 0.2)"
+      ? "0 4px 12px rgba(0, 201, 167, 0.2)"
       : "0 1px 3px rgba(0, 0, 0, 0.05)"};
 `;
 
@@ -411,8 +421,8 @@ const CheckIcon = styled(motion.span)`
   position: absolute;
   top: -5px;
   right: -5px;
-  background: #38b2ac;
-  color: white;
+  background: #e6fffa;
+  color: #009688;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -422,8 +432,32 @@ const CheckIcon = styled(motion.span)`
   font-size: 0.7rem;
 `;
 
+const AddButton = styled(motion.button)`
+  background: #00C9A7;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 201, 167, 0.3);
+  margin-bottom: 2rem;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #00B596;
+  }
+
+  svg {
+    font-size: 1.2rem;
+  }
+`;
 const ConfirmButton = styled(motion.button)`
-  background: linear-gradient(135deg, #3182ce, #4299e1);
+  background: linear-gradient(135deg, #00C9A7, #00B596);
   color: white;
   border: none;
   padding: 0.9rem 1.5rem;
@@ -434,7 +468,7 @@ const ConfirmButton = styled(motion.button)`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 201, 167, 0.2);
 
   &:disabled {
     background: #cbd5e0;
@@ -466,11 +500,11 @@ const EmptyText = styled.p`
 `;
 
 const AvailabilityItem = styled(motion.div)`
-  background: linear-gradient(to right, #f7fafc, #edf2f7);
+  background: #e6fffa;
   padding: 1.2rem;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  border-left: 4px solid #4299e1;
+  border-left: 4px solid #00C9A7;
 `;
 
 const DateHeader = styled.div`
@@ -519,14 +553,20 @@ const RemoveSlotButton = styled(motion.button)`
 `;
 
 const RemoveDateButton = styled(motion.button)`
-  background: rgba(245, 101, 101, 0.1);
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  background: white;
+  border: 1px solid #fee2e2;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #f56565;
+  color: #ef4444;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
+  transition: all 0.2s ease;
+
+  svg {
+    font-size: 1.1rem;
+  }
 `;
