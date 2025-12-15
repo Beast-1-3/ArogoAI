@@ -39,7 +39,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://arogo-ai-nu.vercel.app", "https://arogo-ai.vercel.app"],
+    origin: ["http://localhost:5173", "https://arogo-ai-nu.vercel.app", "https://arogo-ai.vercel.app", "https://arogo-ai-ten.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
