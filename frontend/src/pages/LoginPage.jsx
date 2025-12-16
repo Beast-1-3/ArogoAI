@@ -47,19 +47,26 @@ const LoginBox = styled(motion.div)`
 `;
 
 const StyledButton = styled(motion.button)`
-  background: #00C9A7;
+  background: linear-gradient(135deg, #00C9A7 0%, #00B596 100%);
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 0.8rem 8rem;
-  font-size: 1rem;
-  font-weight: 500;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 0.5rem;
-  transition: background 0.2s ease;
+  width: 100%;
+  margin-top: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 201, 167, 0.2);
+  transition: all 0.3s ease;
 
   &:hover {
-    background: #00B596;
+    box-shadow: 0 6px 12px rgba(0, 201, 167, 0.3);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 `;
 
