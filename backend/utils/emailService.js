@@ -9,8 +9,8 @@ export const sendBookingConfirmation = async (userEmail, bookingDetails) => {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-      connectionTimeout: 2000, // 2 seconds
-      socketTimeout: 2000, // 2 seconds
+      connectionTimeout: 1000, // 1 seconds
+      socketTimeout: 1000, // 1 seconds
     });
 
     // Email content
